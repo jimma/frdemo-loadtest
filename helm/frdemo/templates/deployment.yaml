@@ -70,3 +70,6 @@ spec:
               value: {{ .Values.postgresql.database.password}}
             - name: KAFKA_SERVER
               value: {{ .Values.kafaka.service.name}}
+            - name: MAPBOX_BASE_URL
+              value: {{ .Values.mapbox.service.name }}
+

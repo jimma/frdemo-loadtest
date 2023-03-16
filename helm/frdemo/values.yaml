@@ -1,6 +1,6 @@
 name: frdemo-backend
 image:
-  name: jimmarh/backend:latest
+  name: jimmarh/backend:mapbox
   pullPolicy: Always
 autoscaling:
   enabled: true
@@ -53,6 +53,9 @@ zookeeper:
    enabled: true
    service:
      name: zookeeper-service
+mapbox:
+   service:
+     name: mapbox-service
 
 
 
