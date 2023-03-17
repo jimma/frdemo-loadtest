@@ -1,0 +1,498 @@
+name: frdemo-init
+agents:
+  agent-one:
+http:
+  host: !param SERVER
+  sharedConnections: 10
+ergonomics: # Disable stopping the scenario on 4xx or 5xx response
+  autoRangeCheck: false
+usersPerSec: 1
+duration: 5s
+maxSessions: 10
+scenario:
+  initialSequences:
+  - createIncident:
+      - randomItem:
+          list:
+            - 34.23452
+            - 34.23233
+            - 34.06229
+            - 34.18762
+            - 34.13572
+            - 34.25316
+            - 34.22693
+            - 34.21857
+            - 34.14455
+            - 34.21358
+            - 34.22457
+            - 34.20516
+            - 34.1098
+            - 34.21133
+            - 34.01582
+            - 34.15592
+            - 34.23745
+            - 34.09507
+            - 34.02437
+            - 34.20746
+            - 34.2544
+            - 34.20184
+            - 34.20741
+            - 34.21604
+            - 34.19779
+            - 34.18495
+            - 34.12904
+            - 34.07739
+            - 34.16389
+            - 34.24546
+            - 34.20846
+            - 34.2139
+            - 34.25211
+            - 34.09831
+            - 34.12602
+            - 34.17813
+            - 34.2015
+            - 34.18949
+            - 34.20557
+            - 34.19413
+            - 34.224
+            - 34.1588
+            - 34.17563
+            - 34.09122
+            - 34.22641
+            - 34.05148
+            - 34.13647
+            - 34.14914
+            - 34.14923
+            - 34.12585
+          toVar: lat
+      - randomItem:
+          list:
+            - -77.83742
+            - -77.84095
+            - -77.90289
+            - -77.81184
+            - -77.87147
+            - -77.80446
+            - -77.89243
+            - -77.84894
+            - -77.91779
+            - -77.93645
+            - -77.92571
+            - -77.84347
+            - -77.87645
+            - -77.94282
+            - -77.90797
+            - -77.89453
+            - -77.83932
+            - -77.92125
+            - -77.90470
+            - -77.93895
+            - -77.87513
+            - -77.82772
+            - -77.96932
+            - -77.82034
+            - -77.96473
+            - -77.86308
+            - -77.91462
+            - -77.91291
+            - -77.88276
+            - -77.83765
+            - -77.84635
+            - -77.94548
+            - -77.85417
+            - -77.90897
+            - -77.87800
+            - -77.88856
+            - -77.81502
+            - -77.95148
+            - -77.84761
+            - -77.87578
+            - -77.97605
+            - -77.90800
+            - -77.93797
+            - -77.91295
+            - -77.93987
+            - -77.90728
+            - -77.88937
+            - -77.86888
+            - -77.89814
+            - -77.88488
+          toVar: lon
+      - randomItem:
+          list:
+            - Ella Tyrrell
+            - Ryan Morris
+            - Genesis Coleman
+            - Easton Rogers
+            - Valentina Adams
+            - Xavier Stewart
+            - Aubrey Tyrrell
+            - Kennedy Stewart
+            - Connor Kelly
+            - Amelia Wilson
+            - Evelyn Hill
+            - Dylan Hall
+            - Lucy Foster
+            - Natalie Evans
+            - Jackson Ramirez
+            - Kayden Anderson
+            - Nora Collins
+            - Adrian Shaaf
+            - Jonathan Martinez
+            - Dominic Taylor
+            - Aubrey Tison
+            - Jayden Hayes
+            - Caleb Cooper
+            - Gianna Taylor
+            - Alexa Rodriguez
+            - Colton Rodriguez
+            - Jaxson Bennett
+            - Allison Jarae
+            - Anthony Murphy
+            - Hannah Jenkins
+            - Dylan Krohg
+            - Lily Thomas
+            - Ellie Johnson
+            - Noah Long
+            - Genesis Parker
+            - Landon Bell
+            - Gabriella Ramirez
+            - Autumn Foster
+            - Everly Reed
+            - Wyatt Williams
+            - Matthew Sanchez
+            - Gabriella Flores
+            - Aaliyah Robinson
+            - Melanie Washington
+            - Peyton Cox
+            - Nolan Johnson
+            - Angel Brooks
+            - Bryson Campbell
+            - Oliver Perez
+            - Penelope Bailey
+          toVar: victimName
+      - randomItem:
+          list:
+            - (252) 555-6786
+            - (704) 555-5501
+            - (984) 555-4073
+            - (704) 555-6785
+            - (336) 555-4245
+            - (704) 555-3727
+            - (252) 555-9125
+            - (252) 555-8466
+            - (828) 555-9813
+            - (704) 555-4187
+            - (704) 555-2957
+            - (828) 555-8985
+            - (704) 555-3771
+            - (414) 555-5352
+            - (252) 555-7526
+            - (859) 555-1884
+            - (651) 555-8247
+            - (651) 555-1660
+            - (303) 555-2094
+            - (984) 555-4550
+            - (828) 555-1976
+            - (336) 555-7726
+            - (252) 555-6348
+            - (828) 555-3219
+            - (336) 555-2051
+            - (859) 555-4559
+            - (336) 555-2890
+            - (651) 555-2157
+            - (651) 555-2196
+            - (828) 555-3390
+            - (651) 555-7714
+            - (252) 555-2271
+            - (336) 555-5895
+            - (984) 555-7204
+            - (828) 555-4774
+            - (704) 555-8375
+            - (984) 555-2079
+            - (336) 555-9522
+            - (704) 555-4605
+            - (828) 555-4520
+            - (651) 555-2086
+            - (828) 555-6366
+            - (910) 555-3138
+            - (704) 555-7024
+            - (910) 555-5896
+            - (336) 555-8443
+            - (828) 555-4037
+            - (984) 555-9886
+            - (252) 555-7395
+            - (252) 555-5964
+          toVar: victimPhoneNumber
+      - randomItem:
+          list:
+            - true
+            - false
+          toVar: medicalNeeded
+      - randomInt:
+          min: 1
+          max: 10
+          toVar: numberOfPeople
+      - httpRequest:
+          POST: /incidents
+          headers:
+            content-type: application/json
+          body: |
+            {
+             "lat": "${lat}",
+             "lon": "${lon}",
+             "numberOfPeople": ${numberOfPeople},
+             "victimName": "${victimName}",
+             "victimPhoneNumber": "${victimPhoneNumber}",
+             "medicalNeeded": ${medicalNeeded}
+            }
+  - createResponder:
+      - randomItem:
+          list:
+            - 34.20706
+            - 34.23240
+            - 34.20004
+            - 34.19622
+            - 34.24495
+            - 34.13282
+            - 34.19176
+            - 34.23101
+            - 34.22685
+            - 34.19909
+            - 34.02982
+            - 34.14921
+            - 34.03555
+            - 34.06825
+            - 34.12903
+            - 34.15310
+            - 34.12029
+            - 34.22637
+            - 34.19573
+            - 34.16638
+            - 34.14186
+            - 34.21288
+            - 34.24209
+            - 34.16824
+            - 34.23220
+            - 34.20821
+            - 34.21376
+            - 34.18547
+            - 34.16780
+            - 34.21410
+            - 34.15382
+            - 34.06380
+            - 34.22628
+            - 34.19625
+            - 34.06424
+            - 34.16094
+            - 34.21765
+            - 34.20042
+            - 34.23801
+            - 34.06777
+            - 34.23165
+            - 34.24318
+            - 34.12786
+            - 34.21494
+            - 34.08720
+            - 34.07635
+            - 34.25946
+            - 34.21731
+            - 34.24387
+            - 34.24767
+          toVar: resLat
+      - randomItem:
+          list:
+            - -77.83742
+            - -77.84095
+            - -77.90289
+            - -77.81184
+            - -77.87147
+            - -77.80446
+            - -77.89243
+            - -77.84894
+            - -77.91779
+            - -77.93645
+            - -77.92571
+            - -77.84347
+            - -77.87645
+            - -77.94282
+            - -77.90797
+            - -77.89453
+            - -77.83932
+            - -77.92125
+            - -77.90470
+            - -77.93895
+            - -77.87513
+            - -77.82772
+            - -77.96932
+            - -77.82034
+            - -77.96473
+            - -77.86308
+            - -77.91462
+            - -77.91291
+            - -77.88276
+            - -77.83765
+            - -77.84635
+            - -77.94548
+            - -77.85417
+            - -77.90897
+            - -77.87800
+            - -77.88856
+            - -77.81502
+            - -77.95148
+            - -77.84761
+            - -77.87578
+            - -77.97605
+            - -77.90800
+            - -77.93797
+            - -77.91295
+            - -77.93987
+            - -77.90728
+            - -77.88937
+            - -77.86888
+            - -77.89814
+            - -77.88488
+          toVar: resLon
+      - randomItem:
+          list:
+            - Chloe Evans
+            - Santiago Campbell
+            - Elijah Roberts
+            - Isaac Lopez
+            - Kinsley Adams
+            - Ezra Russell
+            - Kaylee King
+            - Emilia Mosher
+            - Ezekiel Bailey
+            - Daniel Garcia
+            - Genesis Morris
+            - Lucas Bennett
+            - Abigail Reed
+            - Parker Carter
+            - John Moore
+            - Leonardo Perry
+            - Samantha Miller
+            - Hailey Cooper
+            - Nova Bailey
+            - Nevaeh Thompson
+            - Jayden Parker
+            - Nora Butler
+            - James Wood
+            - Emily Rodriguez
+            - Christopher Bryant
+            - James Evans
+            - Peyton Rogers
+            - Alexa Turner
+            - Sarah Lee
+            - Jace Mitchell
+            - Ryan Henderson
+            - Nicholas Moore
+            - Maya Smith
+            - Everly Wilson
+            - Ezekiel Diaz
+            - Nora Coleman
+            - Emma Hall
+            - Eliana Butler
+            - Valentina Jackson
+            - Andrew Peterson
+            - Allison Shaaf
+            - Levi Lewis
+            - Jim Williams
+            - Cameron Torres
+            - Harper Johnson
+            - Nova Phillips
+            - Evelyn Cooper
+            - Maya Cook
+            - Jameson Rivera
+            - Ethan Washington
+          toVar: resName
+      - randomItem:
+          list:
+            - (651) 555-5750
+            - (651) 555-6173
+            - (414) 555-4144
+            - (704) 555-1025
+            - (828) 555-8899
+            - (651) 555-6856
+            - (651) 555-6008
+            - (859) 555-0319
+            - (336) 555-6575
+            - (704) 555-6289
+            - (252) 555-8314
+            - (828) 555-3980
+            - (704) 555-0762
+            - (984) 555-4898
+            - (336) 555-7676
+            - (720) 555-9901
+            - (252) 555-5089
+            - (252) 555-7101
+            - (651) 555-4420
+            - (336) 555-5668
+            - (828) 555-8321
+            - (252) 555-3395
+            - (704) 555-0581
+            - (202) 555-6498
+            - (252) 555-3091
+            - (828) 555-8783
+            - (651) 555-5537
+            - (828) 555-9582
+            - (828) 555-4452
+            - (651) 555-1953
+            - (984) 555-8020
+            - (414) 555-6675
+            - (252) 555-4205
+            - (651) 555-9613
+            - (252) 555-8679
+            - (828) 555-2194
+            - (414) 555-0104
+            - (651) 555-9048
+            - (336) 555-4224
+            - (651) 555-7244
+            - (984) 555-9926
+            - (704) 555-9830
+            - (984) 555-7438
+            - (828) 555-8986
+            - (704) 555-8050
+            - (651) 555-5808
+            - (704) 555-2101
+            - (651) 555-9603
+            - (828) 555-2319
+            - (704) 555-8935
+          toVar: resPhone
+      - randomItem:
+          list:
+            - true
+            - false
+          toVar: enrolled
+      - randomInt:
+          min: 1
+          max: 20
+          toVar: boatCapacity
+      - randomItem:
+          list:
+            - true
+            - false
+          toVar: medicalKit
+      - randomItem:
+          list:
+            - true
+            - false
+          toVar: persion
+      - httpRequest:
+          POST: /responder-service/responder
+          headers:
+            content-type: application/json
+          body: |
+            {
+             "latitude": "${resLat}",
+             "longitude": "${resLon}",
+             "enrolled": ${enrolled},
+             "name": "${resName}",
+             "phoneNumber": "${resPhone}",
+             "boatCapacity": ${boatCapacity},
+             "medicalKit": ${medicalKit},
+             "available": true,
+             "person": ${persion}
+            }
+
+
