@@ -10,10 +10,11 @@ SRCDIR=`dirname "$0"`
 HYVERSION=0.23
 HYCLIENT=hyperfoil-${HYVERSION}
 HYCLIENT_DIR=$SRCDIR/${HYCLIENT}
-
+CONTROLLER=$(oc get route hyperfoil --template='http://{{.spec.host}}')
+OPENSHIFT_SERVER=$(oc get route frdemo --template='https://{{.spec.host}}')
 while (( "$#" )); do
   case "$1" in
-    setup|run|help)
+    setup|run|load|help)
       COMMAND=$1
       shift
       ;;
@@ -42,9 +43,10 @@ test.help() {
       loadtest.sh setup
 
   COMMANDS:
-      setup             Setup hyperfoil in openshift cluster
-      run              Run hyperfoil test script
-      help              Print this help message
+      setup            Setup hyperfoil in openshift cluster
+      run              Run script to prepare data and load tests
+      load             Only run the load test after the data prepared
+      help             Print this help message
   OPTIONS:
 
 EOF
@@ -61,10 +63,53 @@ test.run() {
     rm hyperfoil-${HYVERSION}.zip
   fi
   ###
-  ## TODO: ASK HyperFoil team how to get this cli works. It can't pass these flags to cli.sh
   ###
   #${HYCLIENT_DIR}/bin/cli.sh connect $(oc get route hyperfoil --template='http://{{.spec.host}}')
-  exec ${HYCLIENT_DIR}/bin/cli.sh
+/usr/bin/expect << EOF
+      set timeout 300
+      spawn ${HYCLIENT_DIR}/bin/cli.sh
+      expect "\[hyperfoil"
+      send -- "connect $CONTROLLER\r"
+      expect "\[hyperfoil\@"
+      send -- "upload frdemo.hf.yaml\r"
+      expect "\[hyperfoil\@"
+      send -- "upload frdemo-init.hf.yaml\r"
+      expect "\[hyperfoil\@"
+      send -- "run frdemo-init -PSERVER=${OPENSHIFT_SERVER}\r"
+      expect "\[hyperfoil\@"
+      send -- "run frdemo -PSERVER=${OPENSHIFT_SERVER}\r"
+      expect "\[hyperfoil\@"
+      send -- "stats\r"
+      expect "\[hyperfoil"
+      send -- "exit\r\n"
+      expect eof
+EOF
+}
+test.load() {
+  if [ ! -d "$HYCLIENT_DIR" ]
+  then
+    wget https://github.com/Hyperfoil/Hyperfoil/releases/download/release-${HYVERSION}/hyperfoil-${HYVERSION}.zip
+    unzip -o hyperfoil-${HYVERSION}.zip
+    rm hyperfoil-${HYVERSION}.zip
+  fi
+  ###
+  ###
+  #${HYCLIENT_DIR}/bin/cli.sh connect $(oc get route hyperfoil --template='http://{{.spec.host}}')
+/usr/bin/expect << EOF
+      set timeout 300
+      spawn ${HYCLIENT_DIR}/bin/cli.sh
+      expect "\[hyperfoil"
+      send -- "connect $CONTROLLER\r"
+      expect "\[hyperfoil\@"
+      send -- "upload frdemo.hf.yaml\r"
+      expect "\[hyperfoil\@"
+      send -- "run frdemo -PSERVER=${OPENSHIFT_SERVER}\r"
+      expect "\[hyperfoil\@"
+      send -- "stats\r"
+      expect "\[hyperfoil"
+      send -- "exit\r\n"
+      expect eof
+EOF
 }
 
 info() {
