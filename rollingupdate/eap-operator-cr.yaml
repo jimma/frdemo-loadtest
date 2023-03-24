@@ -1,0 +1,7 @@
+apiVersion: wildfly.org/v1alpha1
+kind: WildFlyServer
+metadata:
+  name: frdemo
+spec:
+  applicationImage: "quay.io/jimma/demo:1.0"
+  replicas: 5
