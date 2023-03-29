@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ include "postgresql.pvcName" . }}
 spec:
-  storageClassName: gp2
+  storageClassName: nfs
   accessModes:
     - ReadWriteOnce
   resources:

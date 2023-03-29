@@ -10,8 +10,8 @@ SRCDIR=`dirname "$0"`
 HYVERSION=0.23
 HYCLIENT=hyperfoil-${HYVERSION}
 HYCLIENT_DIR=$SRCDIR/${HYCLIENT}
-CONTROLLER=$(oc get route hyperfoil --template='http://{{.spec.host}}')
-OPENSHIFT_SERVER=$(oc get route frdemo --template='https://{{.spec.host}}')
+CONTROLLER=$(oc get route hyperfoil --namespace frdemo --template='http://{{.spec.host}}')
+OPENSHIFT_SERVER=$(oc get route frdemo --namespace frdemo --template='https://{{.spec.host}}')
 while (( "$#" )); do
   case "$1" in
     setup|run|load|help)
