@@ -4,63 +4,75 @@ agents:
   agent-two:
 http:
   host: !param SERVER
-  sharedConnections: 200
+  sharedConnections: 500
 ergonomics: # Disable stopping the scenario on 4xx or 5xx response
   autoRangeCheck: false
-usersPerSec: 50
-duration: 10s
-maxSessions: 50
-scenario:
-  initialSequences:
-  - getAvaiablelResponders:
-      - httpRequest:
-          GET: /responder-service/available
-  - getAllMissions:
-      - httpRequest:
-          GET: /api/missions
-          handler:
-            body:
-              json:
-                query: .[]
-                processor:
-                  array:
-                    toVar: missions
-                    format: BYTES
-                    maxSize: 2
-      - awaitAllResponses:
-      - foreach:
-          fromVar: missions
-          sequence: getResponderById
-  - getAllIncidents:
-      - httpRequest:
-          GET: /incidents
-          handler:
-            body:
-              json:
-                query: .[]
-                processor:
-                  array:
-                    toVar: incidents
-                    format: BYTES
-                    maxSize: 2
-      - awaitAllResponses:
-      - foreach:
-          fromVar: incidents
-          sequence: getIncidentById
-  sequences:
-    - getResponderById[2]:
-        - json:
-            fromVar: missions[.]
-            query: .responderId
-            toVar: responders[.]
-        - httpRequest:
-            GET: /responder-service/${responders[.]}
-    - getIncidentById[2]:
-        - json:
-            fromVar: incidents[.]
-            query: .id
-            toVar: incidentIds[.]
-        - httpRequest:
-            GET: /incidents/incident/${incidentIds[.]}
-
-
+phases:
+  - rampUp:
+      increasingRate:
+        duration: 30s
+        isWarmup: true
+        maxSessions: 200
+        initialUsersPerSec:
+          base: 0
+          increment: 10
+        targetUsersPerSec: 100
+        scenario: &frdemoGet
+          initialSequences:
+            - getAvaiablelResponders:
+                - httpRequest:
+                    GET: /responder-service/available
+            - getAllMissions:
+                - httpRequest:
+                    GET: /api/missions
+                    handler:
+                      body:
+                        json:
+                          query: .[]
+                          processor:
+                            array:
+                              toVar: missions
+                              format: BYTES
+                              maxSize: 2
+                - awaitAllResponses:
+                - foreach:
+                    fromVar: missions
+                    sequence: getResponderById
+            - getAllIncidents:
+                - httpRequest:
+                    GET: /incidents
+                    handler:
+                      body:
+                        json:
+                          query: .[]
+                          processor:
+                            array:
+                              toVar: incidents
+                              format: BYTES
+                              maxSize: 2
+                - awaitAllResponses:
+                - foreach:
+                    fromVar: incidents
+                    sequence: getIncidentById
+          sequences:
+            - getResponderById[2]:
+                - json:
+                    fromVar: missions[.]
+                    query: .responderId
+                    toVar: responders[.]
+                - httpRequest:
+                    GET: /responder-service/${responders[.]}
+            - getIncidentById[2]:
+                - json:
+                    fromVar: incidents[.]
+                    query: .id
+                    toVar: incidentIds[.]
+                - httpRequest:
+                    GET: /incidents/incident/${incidentIds[.]}
+  - demoSteady:
+      constantRate:
+        usersPerSec: 100
+        maxSessions: 200
+        startAfter: rampUp
+        duration: 1m
+        scenario: *frdemoGet
