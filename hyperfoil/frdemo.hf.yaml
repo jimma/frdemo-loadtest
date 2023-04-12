@@ -1,22 +1,22 @@
 name: frdemo
 agents:
-  agent-one:
-  agent-two:
+  agent-one: !param AGENT_1_HOST localhost
+  agent-two: !param AGENT_2_HOST localhost
 http:
   host: !param SERVER
-  sharedConnections: 500
+  sharedConnections: !param SHARED_CONNECTIONS 500
 ergonomics: # Disable stopping the scenario on 4xx or 5xx response
   autoRangeCheck: false
 phases:
   - rampUp:
       increasingRate:
-        duration: 30s
+        duration: !param RAMP_UP_DURATION 100s
         isWarmup: true
-        maxSessions: 200
+        maxSessions: !param MAX_HTTP_SESSIONS 200
         initialUsersPerSec:
           base: 0
           increment: 10
-        targetUsersPerSec: 100
+        targetUsersPerSec: !param USERS_PER_SEC 100
         scenario: &frdemoGet
           initialSequences:
             - getAvaiablelResponders:
@@ -71,8 +71,8 @@ phases:
                     GET: /incidents/incident/${incidentIds[.]}
   - demoSteady:
       constantRate:
-        usersPerSec: 100
-        maxSessions: 200
+        usersPerSec: !param USER_PER_SEC 100
+        maxSessions: !param MAX_HTTP_SESSIONS 200
         startAfter: rampUp
-        duration: 1m
+        duration: !param STEADY_STATE_DURATION 1m
         scenario: *frdemoGet
