@@ -8,71 +8,71 @@ http:
 ergonomics: # Disable stopping the scenario on 4xx or 5xx response
   autoRangeCheck: false
 phases:
-  - rampUp:
-      increasingRate:
-        duration: !param RAMP_UP_DURATION 100s
-        isWarmup: true
-        maxSessions: !param MAX_HTTP_SESSIONS 200
-        initialUsersPerSec:
-          base: 0
-          increment: 10
-        targetUsersPerSec: !param USERS_PER_SEC 100
-        scenario: &frdemoGet
-          initialSequences:
-            - getAvaiablelResponders:
-                - httpRequest:
-                    GET: /responder-service/available
-            - getAllMissions:
-                - httpRequest:
-                    GET: /api/missions
-                    handler:
-                      body:
-                        json:
-                          query: .[]
-                          processor:
-                            array:
-                              toVar: missions
-                              format: BYTES
-                              maxSize: 2
-                - awaitAllResponses:
-                - foreach:
-                    fromVar: missions
-                    sequence: getResponderById
-            - getAllIncidents:
-                - httpRequest:
-                    GET: /incidents
-                    handler:
-                      body:
-                        json:
-                          query: .[]
-                          processor:
-                            array:
-                              toVar: incidents
-                              format: BYTES
-                              maxSize: 2
-                - awaitAllResponses:
-                - foreach:
-                    fromVar: incidents
-                    sequence: getIncidentById
-          sequences:
-            - getResponderById[2]:
-                - json:
-                    fromVar: missions[.]
-                    query: .responderId
-                    toVar: responders[.]
-                - httpRequest:
-                    GET: /responder-service/${responders[.]}
-            - getIncidentById[2]:
-                - json:
-                    fromVar: incidents[.]
-                    query: .id
-                    toVar: incidentIds[.]
-                - httpRequest:
-                    GET: /incidents/incident/${incidentIds[.]}
-  - demoSteady:
-      constantRate:
-        usersPerSec: !param USER_PER_SEC 100
-        maxSessions: !param MAX_HTTP_SESSIONS 200
-        startAfter: rampUp
-        duration: !param STEADY_STATE_DURATION 1m
-        scenario: *frdemoGet
+- rampUp:
+    increasingRate:
+      duration: !param RAMP_UP_DURATION 100s
+      isWarmup: true
+      maxSessions: !param MAX_HTTP_SESSIONS 200
+      initialUsersPerSec:
+        base: 0
+        increment: 10
+      targetUsersPerSec: !param USERS_PER_SEC 100
+      scenario: &frdemoGet
+        initialSequences:
+          - getAvaiablelResponders:
+              - httpRequest:
+                  GET: /responder-service/available
+          - getAllMissions:
+              - httpRequest:
+                  GET: /api/missions
+                  handler:
+                    body:
+                      json:
+                        query: .[]
+                        processor:
+                          array:
+                            toVar: missions
+                            format: BYTES
+                            maxSize: 2
+              - awaitAllResponses:
+              - foreach:
+                  fromVar: missions
+                  sequence: getResponderById
+          - getAllIncidents:
+              - httpRequest:
+                  GET: /incidents
+                  handler:
+                    body:
+                      json:
+                        query: .[]
+                        processor:
+                          array:
+                            toVar: incidents
+                            format: BYTES
+                            maxSize: 2
+              - awaitAllResponses:
+              - foreach:
+                  fromVar: incidents
+                  sequence: getIncidentById
+        sequences:
+          - getResponderById[2]:
+              - json:
+                  fromVar: missions[.]
+                  query: .responderId
+                  toVar: responders[.]
+              - httpRequest:
+                  GET: /responder-service/${responders[.]}
+          - getIncidentById[2]:
+              - json:
+                  fromVar: incidents[.]
+                  query: .id
+                  toVar: incidentIds[.]
+              - httpRequest:
+                  GET: /incidents/incident/${incidentIds[.]}
+- demoSteady:
+    constantRate:
+      usersPerSec: !param USER_PER_SEC 100
+      maxSessions: !param MAX_HTTP_SESSIONS 200
+      startAfter: rampUp
+      duration: !param STEADY_STATE_DURATION 1m
+      scenario: *frdemoGet
