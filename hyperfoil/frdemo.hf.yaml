@@ -71,7 +71,7 @@ phases:
                   GET: /incidents/incident/${incidentIds[.]}
 - demoSteady:
     constantRate:
-      usersPerSec: !param USER_PER_SEC 100
+      usersPerSec: !param USERS_PER_SEC 100
       maxSessions: !param MAX_HTTP_SESSIONS 200
       startAfter: rampUp
       duration: !param STEADY_STATE_DURATION 1m
